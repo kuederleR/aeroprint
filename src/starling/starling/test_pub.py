@@ -59,7 +59,7 @@ class StarlingDataNode(Node):
             depth=1
         )
 
-        # Subscribe to the desired point cloud topic (e.g., /tof_pc or /voa_pc_out)
+        # Subscribe to the desired point cloud topic (/tof_pc or /voa_pc_out)
         self.point_cloud_subscriber = self.create_subscription(
             PointCloud2, '/tof_pc', self.point_cloud_callback, qos_profile)
 
@@ -68,9 +68,12 @@ class StarlingDataNode(Node):
 
     def point_cloud_callback(self, point_cloud_msg):
         # Raw Data
-        print("point could msg:", point_cloud_msg)
+        print("Point cloud msg:", point_cloud_msg)
+        self.get_logger().info("Point cloud msg: %s", str(point_cloud_msg))
+
         # Data 
         print("Point cloud msg data:", point_cloud_msg.data)
+        self.get_logger().info("Point cloud msg data: %s", str(point_cloud_msg.data))
 
         # Convert PointCloud2 message to NumPy array
         point_cloud_array = ros_numpy.point_cloud2.pointcloud2_to_xyz_array(point_cloud_msg)
@@ -79,10 +82,17 @@ class StarlingDataNode(Node):
         xcor = point_cloud_array[:, 0]
         ycor = point_cloud_array[:, 1]
         zcor = point_cloud_array[:, 2]
+
+        # Print
         print("Received point cloud data:")
         print("X coordinates:", xcor)
         print("Y coordinates:", ycor)
         print("Z coordinates:", zcor)
+        self.get_logger().info("Received point cloud data:")
+        self.get_logger().info("X coordinates: %s", str(xcor))
+        self.get_logger().info("Y coordinates: %s", str(ycor))
+        self.get_logger().info("Z coordinates: %s", str(zcor))
+
 
         # Plot the point cloud data
         fig = plt.figure()
@@ -92,6 +102,20 @@ class StarlingDataNode(Node):
         ax.set_ylabel('Y')
         ax.set_zlabel('Z')
         plt.show()
+
+    def process_point_clouds(self):
+        pass
+        # Merge multiple point clouds if necessary (e.g., registration, alignment)
+        # For simplicity, we assume here that we have a single point cloud
+        
+        # Convert point cloud to 3D mesh (surface reconstruction)
+        # This step is where you would apply a surface reconstruction algorithm
+        # For example, you can use the Poisson surface reconstruction method
+        
+        # Visualize the 3D mesh or print the object
+        # This step depends on whether you want to visualize the object or physically print it
+        # For visualization, you can use libraries like PyMesh or Open3D
+        # For 3D printing, you can export the mesh to a format suitable for 3D printing software
 
 def main(args=None) -> None:
     rclpy.init(args=args)
