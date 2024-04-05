@@ -11,7 +11,7 @@ from px4_msgs.msg import (
     VehicleStatus,
 )
 
-
+# comment
 class OffboardFigure8Node(Node):
     """Node for controlling a vehicle in offboard mode."""
 
