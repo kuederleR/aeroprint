@@ -1,4 +1,4 @@
-#!/bin.bash
+#!/bin/bash
 
 # Remove voxl aeroprint service and copy it from this directory.
 cp ~/aeroprint/starling_setup/voxl-aeroprint-start.service /etc/systemd/system/voxl-aeroprint-start.service
