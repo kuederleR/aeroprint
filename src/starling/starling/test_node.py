@@ -26,6 +26,8 @@ class StarlingDataNode(Node):
     def vehicle_status_callback(self, vehicle_status):
         """Callback function for vehicle_status topic subscriber."""
         print(vehicle_status)
+        self.get_logger().info(vehicle_status)
+
 
 def main(args=None) -> None:
     print('Hi from starling.')
