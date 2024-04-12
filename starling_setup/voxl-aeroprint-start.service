@@ -1,7 +1,7 @@
 Description=Aeroprint Startup Service
 
 [Service]
-ExecStart=/etc/aeroprint/startup.bash
+ExecStart=bash /etc/aeroprint/startup.bash
 
 [Install]
 WantedBy=multi-user.target
