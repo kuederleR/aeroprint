@@ -1,7 +1,10 @@
+[Unit]
 Description=Aeroprint Startup Service
 
 [Service]
-ExecStart=bash /etc/aeroprint/startup.bash
+ExecStart=/bin/bash /etc/aeroprint/startup.bash
+Type=simple
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
