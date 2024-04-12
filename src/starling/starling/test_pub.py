@@ -84,7 +84,11 @@ class StarlingDataNode(Node):
             PointCloud2, '/tof_pc', self.point_cloud_callback, qos_profile)
 
         # Array for saving point cloud data
-        self.point_cloud_data = []
+        #self.point_cloud_data = []
+
+
+        # Other method of saving point cloud 
+        self.all_point_cloud_data = np.empty((0, 3))
 
 
 
@@ -97,7 +101,10 @@ class StarlingDataNode(Node):
         point_cloud_np = np.array(list(points))
 
         # Store the numpy array in the list
-        self.point_cloud_data.append(point_cloud_np)
+        #self.point_cloud_data.append(point_cloud_np)
+
+        # Other method
+        self.all_point_cloud_data = np.vstack((self.all_point_cloud_data, point_cloud_np))
 
     
     def save_point_cloud_data(self, file_path):
