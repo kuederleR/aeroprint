@@ -64,6 +64,7 @@ class StarlingDataNode(Node):
     def vehicle_odo_callback(self, vehicle_odometry):
         """Callback function for vehicle_status topic subscriber."""
         print(vehicle_odometry.position)
+        self.get_logger().info(vehicle_odometry.position)
 
 def main(args=None) -> None:
     rclpy.init(args=args)
