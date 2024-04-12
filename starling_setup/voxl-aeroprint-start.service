@@ -2,9 +2,9 @@
 Description=Aeroprint Startup Service
 
 [Service]
-ExecStart=/bin/bash -c 'source /opt/ros/foxy/mpa_to_ros2/install/setup.bash; /etc/aeroprint/startup.bash'
+User=root
+ExecStart=/bin/bash /etc/aeroprint/startup.bash
 Type=simple
-Restart=always
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=multi-user.target                        
