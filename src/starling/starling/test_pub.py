@@ -65,6 +65,7 @@ import rclpy
 from rclpy.node import Node
 from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
 from sensor_msgs.msg import PointCloud2
+import numpy as np
 
 class StarlingDataNode(Node):
     def __init__(self) -> None:
