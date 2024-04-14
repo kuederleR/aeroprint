@@ -112,8 +112,11 @@ class StarlingDataNode(Node):
         # Save the accumulated point cloud data to a file
         np.save(file_path, self.point_cloud_data)
 
-        # We could try and mesh it here
+        # Try and mesh here
         mesh_numpy_data(self, self.point_cloud_data)
+
+        # clear point cloud data
+        self.all_point_cloud_data = np.empty((0, 3))
 
     
     def mesh_numpy_data(self, numpy_file):
