@@ -67,18 +67,9 @@ from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPo
 from sensor_msgs.msg import PointCloud2
 import numpy as np
 
-
 class StarlingDataNode(Node):
-<<<<<<< HEAD
     def __init__(self) -> None:
         super().__init__('starling_data_node')
-=======
-    """Node for reading some starling data as a test."""
-
-    def __init__(self) -> None:
-        super().__init__("starling_data_node")
-
->>>>>>> master
         self.get_logger().info("Starling data test node alive!")
 
         # Configure QoS profile for publishing and subscribing
@@ -86,10 +77,9 @@ class StarlingDataNode(Node):
             reliability=ReliabilityPolicy.BEST_EFFORT,
             durability=DurabilityPolicy.TRANSIENT_LOCAL,
             history=HistoryPolicy.KEEP_LAST,
-            depth=1,
+            depth=1
         )
 
-<<<<<<< HEAD
         # Subscribe to the desired point cloud topic (/tof_pc or /voa_pc_out)
         self.point_cloud_subscriber = self.create_subscription(
             PointCloud2, '/tof_pc', self.point_cloud_callback, qos_profile)
@@ -233,15 +223,6 @@ def _get_struct_fmt(is_bigendian, fields, field_names=None):
             offset += field.count * datatype_length
 
     return fmt
-=======
-        self.vehicle_status_subscriber = self.create_subscription(
-            VehicleOdometry,
-            "/fmu/out/vehicle_odometry",
-            self.vehicle_odo_callback,
-            qos_profile,
-        )
->>>>>>> master
-
 
 
 def main(args=None) -> None:
@@ -260,5 +241,5 @@ def main(args=None) -> None:
     # starling_data_node.destroy_node()
     # rclpy.shutdown()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
