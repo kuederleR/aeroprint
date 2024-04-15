@@ -45,8 +45,9 @@ from px4_msgs.msg import VehicleOdometry
 
 class StarlingDataNode(Node):
     """Node for reading some starling data as a test."""
+
     def __init__(self) -> None:
-        super().__init__('starling_data_node')
+        super().__init__("starling_data_node")
 
         self.get_logger().info("Starling data test node alive!")
 
@@ -55,7 +56,7 @@ class StarlingDataNode(Node):
             reliability=ReliabilityPolicy.BEST_EFFORT,
             durability=DurabilityPolicy.TRANSIENT_LOCAL,
             history=HistoryPolicy.KEEP_LAST,
-            depth=1
+            depth=1,
         )
 
         self.vehicle_status_subscriber = self.create_subscription( #creating subscriber, create subscription with Vodometry, call odo callback
@@ -74,5 +75,5 @@ def main(args=None) -> None:
     rclpy.shutdown()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
