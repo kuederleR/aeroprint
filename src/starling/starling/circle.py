@@ -73,30 +73,20 @@ class OffboardFigure8Node(Node):
             msg = TrajectorySetpoint()
 
             a = (-math.pi / 2.0) + i * (2.0 * math.pi / self.steps)
-            c = math.cos(a)
-            c2a = math.cos(2.0 * a)
-            c4a = math.cos(4.0 * a)
-            c2am3 = c2a - 3.0
-            c2am3_cubed = c2am3 * c2am3 * c2am3
-            s = math.sin(a)
-            cc = c * c
-            ss = s * s
-            sspo = (s * s) + 1.0
-            ssmo = (s * s) - 1.0
-            sspos = sspo * sspo
+            
 
-            msg.position = [-(r * c), -(r * s), self.altitude]
+            msg.position = [r * math.cos(a), r * math.sin(a), self.altitude]
             msg.velocity = [
-                -(r * s),
-                -(r * c),
+                -r * math.sin(a),
+                r * math.cos(a),
                 0.0,
             ]
             msg.acceleration = [
-                -(r * c),
-                (r * s),
+                -r * math.cos(a),
+                -r * math.sin(a),
                 0.0,
             ]
-            msg.yaw = math.atan2(msg.velocity[1], msg.velocity[0])
+            msg.yaw = math.atan2(msg.acceleration[1], msg.acceleration[0])
 
             self.path.append(msg)
 
