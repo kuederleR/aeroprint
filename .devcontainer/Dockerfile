@@ -18,7 +18,7 @@ RUN apt-get install -y python3-pip \
     && apt-get install python3-colcon-common-extensions -y \
     && apt-get install python3-rosdep -y \
     && echo "source /opt/ros/foxy/setup.bash" >> /etc/bash.bashrc \
-    && rosdep update
+    && pip install --upgrade numpy
 
 USER $USERNAME
 CMD ["/bin/bash"]

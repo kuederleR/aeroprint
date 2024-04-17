@@ -2,8 +2,8 @@ import rclpy
 import math
 import time
 from rclpy.node import Node
-from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
-from nav_msgs.msg import Odometry
+from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy, qos_profile_sensor_data
+from sensor_msgs.msg import Image
 
 
 class StarlingDataNode(Node):
@@ -23,13 +23,12 @@ class StarlingDataNode(Node):
         )
 
         self.vehicle_status_subscriber = self.create_subscription(
-            Odometry, "/qvio", self.vehicle_odo_callback, qos_profile
+            Image, "/qvio_overlay", self.vehicle_odo_callback, qos_profile_sensor_data
         )
 
     def vehicle_odo_callback(self, vehicle_odometry):
         """Callback function for vehicle_status topic subscriber."""
         print("HELLO")
-
 
 def main(args=None) -> None:
     rclpy.init(args=args)

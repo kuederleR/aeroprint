@@ -11,7 +11,7 @@
 
 	"runArgs": [
 		"--network=host"
-	]
+	],
 
 	
 
@@ -22,7 +22,7 @@
 	// "forwardPorts": [],
 
 	// Uncomment the next line to run commands after the container is created.
-	// "postCreateCommand": "cat /etc/os-release",
+	"postCreateCommand": "rosdep update && rosdep install --from-paths src --ignore-src -r -y",
 
 	// Configure tool-specific properties.
 	// "customizations": {},
