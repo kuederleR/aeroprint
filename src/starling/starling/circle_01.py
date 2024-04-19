@@ -16,9 +16,9 @@ class OffboardFigure8Node(Node):
     """Node for controlling a vehicle in offboard mode."""
 
     def __init__(self) -> None:
-        super().__init__("offboard_figure8_node")
+        super().__init__("offboard_circle_node")
 
-        self.get_logger().info("Offboard Figure 8 Node Alive!")
+        self.get_logger().info("Offboard Circle Node Alive!")
 
         # Configure QoS profile for publishing and subscribing
         qos_profile = QoSProfile(
@@ -75,7 +75,7 @@ class OffboardFigure8Node(Node):
             a = (-math.pi / 2.0) + i * (2.0 * math.pi / self.steps)
             
 
-            msg.position = [r * math.cos(a), r * math.sin(a), self.altitude]
+            msg.position = [r +  r * math.cos(a), r * math.sin(a), self.altitude]
             msg.velocity = [
                 -r * math.sin(a),
                 r * math.cos(a),
@@ -116,7 +116,7 @@ class OffboardFigure8Node(Node):
             self.publish_takeoff_setpoint(0.0, 0.0, self.altitude)
         else:
             if not self.hit_figure_8:
-                self.get_logger().info("Doing figure 8 now")
+                self.get_logger().info("Doing Circle now")
                 self.figure8_timer = self.create_timer(
                     1 / self.rate, self.offboard_move_callback
                 )
