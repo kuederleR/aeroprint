@@ -72,7 +72,7 @@ class OffboardFigure8Node(Node):
         for i in range(self.steps):
             msg = TrajectorySetpoint()
 
-            a = (-math.pi / 2.0) + i * (2.0 * math.pi / self.steps)
+            a = (-math.pi) + i * (2.0 * math.pi / self.steps)
             
 
             msg.position = [r +  r * math.cos(a), r * math.sin(a), self.altitude]
@@ -113,7 +113,7 @@ class OffboardFigure8Node(Node):
             self.offboard_setpoint_counter += 1
 
         if self.start_time + 10 > time.time():
-            self.publish_takeoff_setpoint(math.pi / 2.0, 0.0, self.altitude)
+            self.publish_takeoff_setpoint(0.0, 0.0, self.altitude)
         else:
             if not self.hit_figure_8:
                 self.get_logger().info("Doing Circle now")
