@@ -113,7 +113,7 @@ class OffboardFigure8Node(Node):
             self.offboard_setpoint_counter += 1
 
         if self.start_time + 10 > time.time():
-            self.publish_takeoff_setpoint(0.0, 0.0, self.altitude)
+            self.publish_takeoff_setpoint(math.pi / 2.0, 0.0, self.altitude)
         else:
             if not self.hit_figure_8:
                 self.get_logger().info("Doing Circle now")
@@ -177,7 +177,7 @@ class OffboardFigure8Node(Node):
     def publish_takeoff_setpoint(self, x: float, y: float, z: float):
         """Publish the trajectory setpoint."""
         msg = TrajectorySetpoint()
-        msg.position = [x-1, y, z]
+        msg.position = [x, y, z]
         msg.yaw = (45.0) * math.pi / 180.0
         msg.timestamp = int(self.get_clock().now().nanoseconds / 1000)
         self.trajectory_setpoint_publisher.publish(msg)
