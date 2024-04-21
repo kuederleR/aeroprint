@@ -134,7 +134,7 @@ class OffboardFigure8Node(Node):
             self.offboard_setpoint_counter += 1
 
         if self.start_time + 10 > time.time():
-            self.publish_takeoff_setpoint(0.0, 0.0, self.altitude)
+            self.publish_takeoff_setpoint(0.0, 0.0, self.step_height)
         else:
             if not self.hit_figure_8:
                 self.get_logger().info("Doing Circle now")
