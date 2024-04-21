@@ -44,11 +44,21 @@ class OffboardFigure8Node(Node):
             self.vehicle_status_callback,
             qos_profile,
         )
+         ## the flight path is a circle of radius x and will fly the same path with 3 different altitudes
+         ## future code will allow user to enter object height and radius. we will add code to take the user input add some height to the initial input 
+         ## and fly 3 paths. the extra height is so the drone flys above and scans the top of the object.
+
+        desired_height = 1.0 ## desired flight height in meters
+        desired_radius = 0.9 ## desired flight radius of circle in meters
+
+        corrected_height = -1 * (desired_height + 0.2)
+        step_height = corrected_height / 3
+
 
         self.rate = 20
-        self.radius = 1
-        self.cycle_s = 8
-        self.altitude = -0.5
+        self.radius = desired_radius   ## radius of circle
+        self.cycle_s = 8  ## flight speed in seconds
+        self.altitude = step_height  ## altitude in meters of first circle (reversed)
         self.steps = self.cycle_s * self.rate
         self.path = []
         self.vehicle_local_position = VehicleLocalPosition()
@@ -59,14 +69,16 @@ class OffboardFigure8Node(Node):
         self.offboard_setpoint_counter = 0
         self.start_time = time.time()
         self.offboard_arr_counter = 0
-        self.init_path()
-        self.altitude = -1.0
-        self.init_path()
+        self.init_path()## first circle 
+        self.altitude = step_height * 2  ## altitude in meters of second circle (reversed)
+        self.init_path()  ## second circle
+        self.altitude = step height * 3  ## altitude in meters of second circle (reversed)
+        self.init_path()    ## third circle
 
         self.timer = self.create_timer(0.1, self.timer_callback)
 
     def init_path(self):
-
+        ## path control position, velocity, and acceleration vectors ()
         dt = 1.0 / self.rate
         dadt = (2.0 * math.pi) / self.cycle_s
         r = self.radius
@@ -76,18 +88,25 @@ class OffboardFigure8Node(Node):
 
             a = (-math.pi) + i * (2.0 * math.pi / self.steps)
             
+            ## position
+            msg.position = [r +  r * math.cos(a), 
+            r * math.sin(a), 
+            self.altitude]
 
-            msg.position = [r +  r * math.cos(a), r * math.sin(a), self.altitude]
+            ## velocity
             msg.velocity = [
                 -r * math.sin(a),
                 r * math.cos(a),
                 0.0,
             ]
+            ## acceleration
             msg.acceleration = [
                 -r * math.cos(a),
                 -r * math.sin(a),
                 0.0,
             ]
+
+            ## yaw (acceleration makes it face the center. velocity makes it face the direction of flight path)
             msg.yaw = math.atan2(msg.acceleration[1], msg.acceleration[0])
 
             self.path.append(msg)
