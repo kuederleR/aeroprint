@@ -52,13 +52,13 @@ class OffboardFigure8Node(Node):
         desired_radius = 0.9 ## desired flight radius of circle in meters
 
         corrected_height = -1 * (desired_height + 0.2)
-        step_height = corrected_height / 3
+        self.step_height = corrected_height / 3
 
 
         self.rate = 20
         self.radius = desired_radius   ## radius of circle
         self.cycle_s = 8  ## flight speed in seconds
-        self.altitude = step_height  ## altitude in meters of first circle (reversed)
+        self.altitude = self.step_height  ## altitude in meters of first circle (reversed)
         self.steps = self.cycle_s * self.rate
         self.path = []
         self.vehicle_local_position = VehicleLocalPosition()
@@ -70,9 +70,9 @@ class OffboardFigure8Node(Node):
         self.start_time = time.time()
         self.offboard_arr_counter = 0
         self.init_path()## first circle 
-        self.altitude = step_height * 2  ## altitude in meters of second circle (reversed)
+        self.altitude = self.step_height * 2  ## altitude in meters of second circle (reversed)
         self.init_path()  ## second circle
-        self.altitude = step_height * 3  ## altitude in meters of second circle (reversed)
+        self.altitude = self.step_height * 3  ## altitude in meters of second circle (reversed)
         self.init_path()    ## third circle
 
         self.timer = self.create_timer(0.1, self.timer_callback)
@@ -187,7 +187,7 @@ class OffboardFigure8Node(Node):
             )
 
         if self.offboard_arr_counter >= len(self.path):
-            self.publish_takeoff_setpoint(0.0, 0.0, self.altitude)
+            self.publish_takeoff_setpoint(0.0, 0.0, self.step_height)
 
         if self.offboard_arr_counter == len(self.path) + 100:
             self.figure8_timer.cancel()
