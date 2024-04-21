@@ -72,7 +72,7 @@ class OffboardFigure8Node(Node):
         self.init_path()## first circle 
         self.altitude = step_height * 2  ## altitude in meters of second circle (reversed)
         self.init_path()  ## second circle
-        self.altitude = step height * 3  ## altitude in meters of second circle (reversed)
+        self.altitude = step_height * 3  ## altitude in meters of second circle (reversed)
         self.init_path()    ## third circle
 
         self.timer = self.create_timer(0.1, self.timer_callback)
