@@ -107,7 +107,7 @@ class OffboardFigure8Node(Node):
             ]
 
             ## yaw (acceleration makes it face the center. velocity makes it face the direction of flight path)
-            msg.yaw = math.atan2(msg.acceleration[1], msg.acceleration[0])-(math.pi/16)
+            msg.yaw = math.atan2(msg.acceleration[1], msg.acceleration[0])+(math.pi/16)
 
             self.path.append(msg)
 
