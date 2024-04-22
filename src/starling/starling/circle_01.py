@@ -199,7 +199,8 @@ class OffboardFigure8Node(Node):
         """Publish the trajectory setpoint."""
         msg = TrajectorySetpoint()
         msg.position = [x, y, z]
-        msg.yaw = (00.0) * math.pi / 180.0  ## set the take off angle to 0 degrees this is the angle of approach it takes to the flight path( 0 degrees straight up)
+        msg.yaw = 0 ## (0 degrees straight up)
+        ##msg.yaw = (45.0) * math.pi / 180.0  ## set the take off angle to 0 degrees this is the angle of approach it takes to the flight path 
         msg.timestamp = int(self.get_clock().now().nanoseconds / 1000)
         self.trajectory_setpoint_publisher.publish(msg)
 
