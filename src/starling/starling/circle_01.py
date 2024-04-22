@@ -57,7 +57,7 @@ class OffboardFigure8Node(Node):
 
         self.rate = 20
         self.radius = desired_radius   ## radius of circle
-        self.cycle_s = 20  ## flight speed in seconds of each circle
+        self.cycle_s = 30  ## flight speed in seconds of each circle
         self.altitude = self.step_height  ## altitude in meters of first circle (reversed)
         self.steps = self.cycle_s * self.rate
         self.path = []
