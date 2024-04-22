@@ -49,7 +49,7 @@ class OffboardFigure8Node(Node):
          ## and fly 3 paths. the extra height is so the drone flys above and scans the top of the object.
 
         desired_height = 1.0 ## desired flight height in meters
-        desired_radius = 0.5 ## desired flight radius of circle in meters
+        desired_radius = 0.9 ## desired flight radius of circle in meters
 
         corrected_height = -1 * (desired_height + 0.2)
         self.step_height = corrected_height / 3
