@@ -49,7 +49,7 @@ class OffboardFigure8Node(Node):
          ## and fly 3 paths. the extra height is so the drone flys above and scans the top of the object.
 
         desired_height = 1.0 ## desired flight height in meters
-        desired_radius = 0.9 ## desired flight radius of circle in meters
+        desired_radius = 0.5 ## desired flight radius of circle in meters
 
         corrected_height = -1 * (desired_height + 0.2)
         self.step_height = corrected_height / 3
@@ -199,7 +199,7 @@ class OffboardFigure8Node(Node):
         """Publish the trajectory setpoint."""
         msg = TrajectorySetpoint()
         msg.position = [x, y, z]
-        msg.yaw = (45.0) * math.pi / 180.0
+        msg.yaw = (00.0) * math.pi / 180.0  ## set the take off angle to 0 degrees this is the angle of approach it takes to the flight path( 0 degrees straight up)
         msg.timestamp = int(self.get_clock().now().nanoseconds / 1000)
         self.trajectory_setpoint_publisher.publish(msg)
 
