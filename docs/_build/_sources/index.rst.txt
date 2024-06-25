@@ -7,10 +7,11 @@ Welcome to AeroPrint's documentation!
 =====================================
 
 .. toctree::
-   :maxdepth: 2
+   host
+   starling
+   printer
+   :maxdepth: 10
    :caption: Contents:
-
-   modules
 
 Indices and tables
 ==================

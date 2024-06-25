@@ -14,7 +14,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../src'))
 
 
 # -- Project information -----------------------------------------------------
@@ -41,8 +41,11 @@ release = '0.1'
 extensions = [
     'sphinx.ext.autodoc', 
     'sphinx.ext.viewcode', 
-    'sphinx.ext.napoleon'
+    'sphinx.ext.napoleon',
+    'sphinx.ext.autosummary'
 ]
+
+autosummary_generate = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -174,3 +177,4 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
+autodoc_mock_imports = ['rclpy', 'std_msgs', 'sensor_msgs', 'geometry_msgs', 'numpy', 'open3d', 'px4_msgs']

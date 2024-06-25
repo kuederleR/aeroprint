@@ -10,10 +10,8 @@ Welcome to AeroPrint's documentation!
    host
    starling
    printer
-   :maxdepth: 2
+   :maxdepth: 10
    :caption: Contents:
-
-   modules
 
 Indices and tables
 ==================

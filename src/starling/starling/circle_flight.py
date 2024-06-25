@@ -25,7 +25,43 @@ from px4_msgs.msg import (
 
 
 class OffboardFigure8Node(Node):
-    """Node for controlling a vehicle in offboard mode."""
+    """
+    Node for controlling Starling in offboard mode.
+
+    This class initializes various publishers and subscribers for flight control,
+    integrates with external systems, and manages flight parameters.
+
+    Attributes:
+        offboard_control_mode_publisher: Publisher for offboard control mode.
+        trajectory_setpoint_publisher: Publisher for trajectory setpoints.
+        vehicle_command_publisher: Publisher for vehicle commands.
+        vehicle_status_subscriber: Subscriber for vehicle status updates.
+        ready_sub: Subscriber for system readiness.
+        radius_sub: Subscriber for radius information.
+        object_height_sub: Subscriber for object height.
+        start_height_sub: Subscriber for start height.
+        scan_start_pub: Publisher for scan start events.
+        scan_end_pub: Publisher for scan end events.
+        voxl_reset: VOXLQVIOController instance for resetting.
+        rate: Rate of control loop execution.
+        radius: Desired radius for the figure-8 path.
+        cycle_s: Duration of one complete figure-8 cycle (in seconds).
+        steps: Total number of steps in the figure-8 path.
+        path: List to store the figure-8 path coordinates.
+        vehicle_local_position: VehicleLocalPosition instance.
+        vehicle_status: VehicleStatus instance.
+        taken_off: Flag indicating if the vehicle has taken off.
+        hit_figure_8: Flag indicating if the vehicle has completed the figure-8.
+        armed: Flag indicating if the vehicle is armed.
+        offboard_setpoint_counter: Counter for offboard setpoints.
+        start_time: Timestamp of node initialization.
+        offboard_arr_counter: Counter for offboard arrival events.
+        start_altitude: Starting altitude for the figure-8 path.
+        end_altitude: Ending altitude for the figure-8 path.
+        start_height: Initial height for the figure-8 path.
+        object_height: Height of the object being scanned.
+        scan_ended: Flag indicating if the scan has ended.
+    """
 
     def __init__(self) -> None:
         super().__init__("flight_control_node")

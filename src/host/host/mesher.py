@@ -105,12 +105,12 @@ class Mesher(Node):
         self.file_directory_pub.publish(output_path)
         self.get_logger().info("Mesh complete.")
 
-def main(args=None):
-    rclpy.init(args=args)
-    mesher = Mesher()
-    rclpy.spin(mesher)
-    mesher.destroy_node()
-    rclpy.shutdown()
+# def main(args=None):
+#     rclpy.init(args=args)
+#     mesher = Mesher()
+#     rclpy.spin(mesher)
+#     mesher.destroy_node()
+#     rclpy.shutdown()
 
-if __name__ == "__main__":
-    main() 
+# if __name__ == "__main__":
+#     main() 
