@@ -9,7 +9,7 @@ __version__ = "0.01.01"
 __status__ = "Beta"
 
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget, QSplashScreen, QGridLayout, QDoubleSpinBox, QCheckBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QWidget, QSplashScreen, QGridLayout, QDoubleSpinBox, QCheckBox, QTabWidget
 from PyQt5.QtGui import QPixmap, QPainter, QPen, QColor, QImage
 from PyQt5.QtCore import QTimer, Qt
 import os
@@ -56,15 +56,20 @@ class MyWindow(QMainWindow):
         self.flashSplash()
         central_widget = QWidget()
         self.layout = QGridLayout(central_widget)
+        self.camera_tabs_widget = QTabWidget()
         self.qvio_widget = QVIOWidget()
+        self.qvio_web_widget = VideoStreamWidget()
+        self.camera_tabs_widget.setMinimumWidth(800)
         self.qvio_widget.setMinimumWidth(800)
         central_widget.setMinimumHeight(600)
         self.qvio_widget.resize(800, 800)
         self.g2r = GUItoROS(self.qvio_widget)
         self.parameter_widget = ParameterWidget(self.g2r)
         self.parameter_widget.resize(800, 800)
+        self.camera_tabs_widget.addTab(self.qvioRosCamUI(), "ROS QVIO Cam")
+        self.camera_tabs_widget.addTab(self.qvioWebCamUI(), "Web QVIO Cam")
         self.layout.addWidget(self.parameter_widget, 0, 1)
-        self.layout.addWidget(self.qvio_widget, 0, 0)
+        self.layout.addWidget(self.camera_tabs_widget, 0, 0)
         # central_widget.setLayout(self.layout)
         self.setCentralWidget(central_widget)
         self.start_ros_thread()
@@ -73,6 +78,20 @@ class MyWindow(QMainWindow):
         self.splash = QSplashScreen(QPixmap(self.splash_path))
         self.splash.show()
         QTimer.singleShot(SPLASH_TIME, self.splash.close)
+
+    def qvioRosCamUI(self):
+        qvioRosCamTab = QWidget()
+        layout = QVBoxLayout()
+        layout.addWidget(self.qvio_widget)
+        qvioRosCamTab.setLayout(layout)
+        return qvioRosCamTab
+    
+    def qvioWebCamUI(self):
+        qvioWebCamTab = QWidget()
+        layout = QVBoxLayout()
+        layout.addWidget(self.qvio_web_widget)
+        qvioWebCamTab.setLayout(layout)
+        return qvioWebCamTab
     
     def start_ros_thread(self, args=None):
         # rclpy.init(args=args)
@@ -202,6 +221,25 @@ class ParameterWidget(QWidget):
     def get_scan_title(self):
         return self.scan_title
     
+
+class WebWidget(QWidget):
+    def __init__(self) -> None:
+        super().__init__()
+        # self.setGeometry(100, 100, 800, 600)
+        layout = QVBoxLayout()
+        self.image_label = QLabel(self)
+        self.image_label.resize(800, 600)
+        # self.resize(800, 600)
+
+        self.setLayout(layout)
+        
+    def update_image_display(self, image_data):
+    # Update the QLabel with the received image data
+    # You can process the image_data here (e.g., convert to QPixmap)
+    # For simplicity, assume image_data is a QPixmap
+        self.image_label.setPixmap(image_data)
+
+    
 class QVIOWidget(QWidget):
     def __init__(self) -> None:
         super().__init__()
@@ -220,6 +258,35 @@ class QVIOWidget(QWidget):
         self.image_label.setPixmap(image_data)
 
     
+class VideoStreamWidget(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.capture = cv2.VideoCapture("http://192.168.8.191/video_raw/tracking")
+
+        self.central_widget = QWidget(self)
+        self.setCentralWidget(self.central_widget)
+
+        self.layout = QVBoxLayout()
+        self.label = QLabel(self)
+        self.layout.addWidget(self.label)
+        self.central_widget.setLayout(self.layout)
+
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_frame)
+        self.timer.start(30)  # Update every 30 milliseconds
+
+    def update_frame(self):
+        ret, frame = self.capture.read()
+        if ret:
+            # Convert the frame to QImage
+            height, width, channel = frame.shape
+            bytes_per_line = 3 * width
+            q_image = QImage(frame.data, width, height, bytes_per_line, QImage.Format_RGB888)
+
+            # Display the QImage in the QLabel
+            self.label.setPixmap(QPixmap.fromImage(q_image))
+
 
 class GUItoROS(Node):
     def __init__(self, qvio_widget:QWidget) -> None:
